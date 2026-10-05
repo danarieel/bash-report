@@ -23,7 +23,10 @@
 ## Запуск по расписанию (cron)
 ```bash
 crontab -e
-*/5 * * * * /home/qbd/projects/bash-report/report.sh
+```
+В конце добавить:
+```
+*/5 * * * * /home/<username>/projects/bash-report/report.sh
 ```
 
 ## Чему научился
