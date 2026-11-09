@@ -1,2 +1,7 @@
 report.txt
-*.swp
+*.report.txt
+*.log
+!sample/*.log
+.DS_Store
+.vscode/
+.idea/
