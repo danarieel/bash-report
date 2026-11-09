@@ -1,33 +1,68 @@
 # bash-report
 
-Сводка по `access.log` nginx: число запросов, коды ответов, топ-5 URL и IP.
+Summarize nginx `access.log`: request count, status codes, top URLs and IPs. Bash + awk, cron-ready.
 
-## Запуск
+Учебный проект: базовый отчёт по access.log без внешних зависимостей. Закреплял awk, sort, uniq, cron.
+
+## Usage / Запуск
+
 ```bash
-./report.sh
+./report.sh sample/access.log report.txt
 ```
-Перед запуском поправь пути `LOG` и `OUT` в начале скрипта.
 
-## Пример вывода
+Переменные окружения:
+- `TOP_N` — сколько топ-записей выводить (по умолчанию 5)
+
+Пример cron (каждые 5 минут):
+
+```bash
+*/5 * * * * /path/to/report.sh /var/log/nginx/access.log /var/log/report.txt
 ```
-=== Отчёт на Mon Oct  5 14:44:25 MSK 2026 ===
-Всего запросов:
-293
-Коды ответов:
+
+Коды возврата:
+- `2` — файл не найден
+- `3` — нет прав на чтение
+- `4` — файл пустой
+
+## Output example / Пример вывода
+
+```text
+=== Report: 2026-10-05T14:44:25+03:00 ===
+File: sample/access.log
+Total requests: 293
+
+Status codes:
     248 200
      42 404
       3 304
-...
+
+Top 5 URLs:
+    120 /api/v1/status
+     45 /login
+      ...
+
+Top 5 IPs:
+     88 192.0.2.10
+     42 198.51.100.5
+      ...
 ```
 
-## Запуск по расписанию (cron)
-```bash
-crontab -e
-```
-В конце добавить:
-```
-*/5 * * * * /home/<username>/projects/bash-report/report.sh
-```
+## What broke and how I fixed / Что ломалось
 
-## Чему научился
-Генерировать запросы для .log-файла и базово обрабатывать их (сортировка, подсчет строк для разных категорий для выявления аномалий).
+- Хардкод путей → аргументы + `TOP_N` через env
+- Нет обработки отсутствующего/пустого лога → exit 2/3/4
+- Пустой отчёт при отсутствии файла → явная ошибка, не пишем мусор
+
+## Limitations / Ограничения
+
+- Только nginx combined format
+- Не учитывает ротацию логов (берёт один файл)
+- Нет фильтра по датам (planned)
+
+## Stack
+
+Bash, awk, sort, uniq, cron. `shellcheck` clean.
+
+## License
+
+MIT
