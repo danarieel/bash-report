@@ -54,23 +54,19 @@ Top 5 IPs:
 ```
 
 ### Что ломалось и как починил
-
 - Хардкод путей → аргументы + `TOP_N` через env
 - Нет обработки отсутствующего/пустого лога → exit 2/3/4
 - Пустой отчёт при отсутствии файла → явная ошибка, не пишем мусор
 
 ### Ограничения
-
 - Только nginx combined format
 - Не учитывает ротацию логов (берёт один файл)
 - Нет фильтра по датам (planned)
 
 ### Стек
-
 Bash, awk, sort, uniq, cron. `shellcheck` clean.
 
 ### Лицензия
-
 MIT
 
 ---
@@ -125,21 +121,17 @@ Top 5 IPs:
 ```
 
 ### What broke and how I fixed
-
 - Hardcoded paths → arguments + `TOP_N` via env
 - No handling of missing/empty log → exit 2/3/4
 - Empty report if file missing → explicit error, no garbage output
 
 ### Limitations
-
 - nginx combined format only
 - Doesn't handle log rotation (single file)
 - No date filter (planned)
 
 ### Stack
-
 Bash, awk, sort, uniq, cron. `shellcheck` clean.
 
 ### License
-
 MIT
